@@ -1,0 +1,28 @@
+{
+  "images": [
+    {
+      "id": "1",
+      "url": "landscape01.jpg"
+    },
+    {
+      "id": "2",
+      "url": "landscape02.jpg"
+    },
+    {
+      "id": "3",
+      "url": "portrait01.jpg"
+    },
+    {
+      "id": "4",
+      "url": "portrait02.jpg"
+    },
+    {
+      "id": "5",
+      "url": "landscape03.jpg"
+    },
+    {
+      "id": "6",
+      "url": "landscape04.jpg"
+    }
+  ]
+}
