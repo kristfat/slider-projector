@@ -2,27 +2,27 @@
   "images": [
     {
       "id": "1",
-      "url": "landscape01.jpg"
+      "url": "images/landscape01.png"
     },
     {
       "id": "2",
-      "url": "landscape02.jpg"
+      "url": "images/landscape02.png"
     },
     {
       "id": "3",
-      "url": "portrait01.jpg"
+      "url": "images/portrait01.png"
     },
     {
       "id": "4",
-      "url": "portrait02.jpg"
+      "url": "images/portrait02.png"
     },
     {
       "id": "5",
-      "url": "landscape03.jpg"
+      "url": "images/landscape03.png"
     },
     {
       "id": "6",
-      "url": "landscape04.jpg"
+      "url": "images/portrait03.png"
     }
   ]
 }
