@@ -29,6 +29,10 @@ html, body {
     transition: transform 700ms ease;
 }
 
+#slider.hide {
+    display: none;
+}
+
 #slider.sliding {
     transform: translate3d(100vw,0,0);
 }
@@ -40,4 +44,13 @@ html, body {
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
+}
+
+#message {
+    display: none;
+    color: white;
+}
+
+#message.show {
+    display: inline-block;
 }

@@ -98,9 +98,14 @@ window.addEventListener('keyup', function (event) {
 const xhr = new XMLHttpRequest();
 xhr.addEventListener('load', function () {
     let response = JSON.parse(this.responseText);
-    images = response.images;
-    initSlides();
+    if (response.setupDone) {
+        images = response.images;
+        initSlides();
+    } else {
+        message.classList.add('show');
+        slider.classList.add('hide');
+    }
 });
-xhr.open('GET', '/image-list');
+xhr.open('GET', '/images/list');
 xhr.send();
 
