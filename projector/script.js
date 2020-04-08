@@ -101,6 +101,6 @@ xhr.addEventListener('load', function () {
     images = response.images;
     initSlides();
 });
-xhr.open('GET', '/images.json');
+xhr.open('GET', '/image-list');
 xhr.send();
 

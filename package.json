@@ -2,10 +2,8 @@
   "name": "slide-projector",
   "version": "1.0.0",
   "description": "The goal of this project is to emulate my father's old slide projector, so he can view his digital images the same way he can view analog slides.",
-  "main": "script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "server.js",
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kristfat/slide-projector.git"
@@ -17,6 +15,7 @@
   },
   "homepage": "https://github.com/kristfat/slide-projector#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "howler": "^2.1.3"
   }
 }
