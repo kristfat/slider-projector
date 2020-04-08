@@ -1,17 +1,17 @@
 //Sound
 const hum = new Howl({
-    src: ['/sound/hum.wav'],
+    src: ['sound/hum.wav'],
     autoplay: true,
     loop: true
 });
 hum.play();
 
 const slideChange = new Howl({
-    src: ['/sound/slide_change.wav']
+    src: ['sound/slide_change.wav']
 });
 
 const directionChange = new Howl({
-    src: ['/sound/direction_change.wav']
+    src: ['sound/direction_change.wav']
 });
 
 let isMuted = false;
@@ -101,6 +101,6 @@ xhr.addEventListener('load', function () {
     images = response.images;
     initSlides();
 });
-xhr.open('GET', 'images.json');
+xhr.open('GET', '/images.json');
 xhr.send();
 
