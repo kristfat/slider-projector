@@ -14,7 +14,11 @@ const directionChange = new Howl({
     src: ['sound/direction_change.wav']
 });
 
-let isMuted = false;
+let isMuted = true;
+Howler.mute(isMuted);
+
+//Message
+const message = document.getElementById('message');
 
 //Images
 const slider = document.getElementById('slider');
@@ -95,17 +99,24 @@ window.addEventListener('keyup', function (event) {
 });
 
 // Fetch image list
-const xhr = new XMLHttpRequest();
-xhr.addEventListener('load', function () {
-    let response = JSON.parse(this.responseText);
-    if (response.setupDone) {
-        images = response.images;
-        initSlides();
-    } else {
-        message.classList.add('show');
-        slider.classList.add('hide');
-    }
-});
-xhr.open('GET', '/images/list');
-xhr.send();
-
+function fetchImageList() {
+    let xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', function () {
+        let response = JSON.parse(this.responseText);
+        if (response.setupDone) {
+            message.classList.remove('show');
+            slider.classList.remove('hide');
+            images = response.images;
+            initSlides();
+        } else {
+            message.classList.add('show');
+            slider.classList.add('hide');
+            setTimeout(function () {
+                fetchImageList();
+            }, 3000);
+        }
+    });
+    xhr.open('GET', '/images/list');
+    xhr.send();
+}
+fetchImageList();
