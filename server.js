@@ -1,5 +1,7 @@
+const bodyParser = require('body-parser');
 const config = require('./config');
 const express = require('express');
+const request = require('request-promise');
 const session = require('express-session');
 const sessionFileStore = require('session-file-store');
 const winston = require('winston');
@@ -30,7 +32,8 @@ const logger = winston.createLogger({
         consoleTransport
     ]
 });
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(sessionMiddleware);
 
 app.use(passport.initialize());
@@ -78,19 +81,28 @@ let images = [
     }
 ];
 
-let setupDone = false;
+let selectedAlbumId = null;
 
-app.post('/setup/done', (req, res) => {
-    setupDone = true;
+app.get('/albums', async (req, res) => {
+    let data = {};
+    if (req.user) {
+        data = await getAlbums(req.user.token);
+    }
+    res.status(200).send(data);
+});
+
+app.put('/selectedAlbumId', (req, res) => {
+    selectedAlbumId = req.body.albumId;
+    logger.info('User selected album, id: ' + selectedAlbumId);
     res.send();
 });
 
 app.get('/images/list', (req, res) => {
     let response = {
-        setupDone: setupDone
+        setupDone: !! selectedAlbumId
     };
 
-    if (setupDone) {
+    if (selectedAlbumId) {
         response.images = images;
     }
 
@@ -101,9 +113,46 @@ app.get('/', (req, res) => res.redirect('setup'));
 
 app.use('/node_modules', express.static('node_modules'));
 app.use('/auth', express.static('auth'));
+app.use('/setup', checkAuthentication);
 app.use('/setup', express.static('setup'));
 app.use('/projector', express.static('projector'));
 app.use('/images', express.static('images'));
 
+function checkAuthentication(req, res, next) {
+    if (!req.user || !req.isAuthenticated()) {
+        res.redirect('/auth');
+    } else {
+        next();
+    }
+}
+
 app.listen(config.port, () => logger.info(`Slide projector listening at http://localhost:${config.port}`));
 
+async function getAlbums(authToken) {
+    let albums = [];
+    let error = null;
+    let parameters = {pageSize: config.albumPageSize};
+
+    try {
+        do {
+            const result = await request.get(config.apiEndpoint + '/v1/albums', {
+                headers: {'Content-Type': 'application/json'},
+                qs: parameters,
+                json: true,
+                auth: {'bearer': authToken}
+            });
+
+            if (result && result.albums) {
+                const items = result.albums.filter(x => !!x);
+
+                albums = albums.concat(items);
+            }
+
+            parameters.pageToken = result.nextPageToken;
+        } while (parameters.pageToken != null)
+    } catch (e) {
+        error = e.error.error || {name: e.name, code: e.statusCode, message: e.message};
+    }
+
+    return {albums, error};
+}
