@@ -15,7 +15,8 @@ const directionChange = new Howl({
 });
 
 let isMuted = true;
-Howler.mute(isMuted);
+// let isMuted = false;
+// Howler.mute(isMuted);
 
 //Message
 const message = document.getElementById('message');
