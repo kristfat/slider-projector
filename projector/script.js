@@ -25,19 +25,19 @@ const message = document.getElementById('message');
 const slider = document.getElementById('slider');
 const currentSlide = document.getElementById('image');
 
-let images, position, direction, isSliding;
+let photos, position, direction, isSliding;
 
 function updateImageSources() {
     if (position > 0) {
         let previousImage = new Image();
         previousImage.addEventListener('load', event => console.log(event));
-        previousImage.src = images[position - 1].url;
+        previousImage.src = photos[position - 1].baseUrl;
     }
-    currentSlide.style.backgroundImage = `url(${images[position].url})`;
-    if (position < images.length - 1) {
+    currentSlide.style.backgroundImage = `url(${photos[position].baseUrl})`;
+    if (position < photos.length - 1) {
         let nextImage = new Image();
         nextImage.addEventListener('load', event => console.log(event));
-        nextImage.src = images[position + 1].url;
+        nextImage.src = photos[position + 1].baseUrl;
     }
 }
 
@@ -65,7 +65,7 @@ function showNextSlide() {
         return;
     }
 
-    if (position <= 0 && direction === -1 || position >= images.length - 1 && direction === 1) {
+    if (position <= 0 && direction === -1 || position >= photos.length - 1 && direction === 1) {
         return;
     }
 
@@ -107,7 +107,7 @@ function fetchImageList() {
         if (response.setupDone) {
             message.classList.remove('show');
             slider.classList.remove('hide');
-            images = response.images;
+            photos = response.photos;
             initSlides();
         } else {
             message.classList.add('show');
@@ -117,7 +117,7 @@ function fetchImageList() {
             }, 3000);
         }
     });
-    xhr.open('GET', '/images/list');
+    xhr.open('GET', '/photos/list');
     xhr.send();
 }
 fetchImageList();
